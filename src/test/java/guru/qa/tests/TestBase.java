@@ -4,12 +4,8 @@ import com.codeborne.selenide.Configuration;
 import guru.qa.pages.YandexFormsFormPage;
 import guru.qa.pages.YandexFormsLoginPage;
 import guru.qa.pages.components.YandexFormsMainPage;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
-
-import static com.codeborne.selenide.Selenide.$;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.*;
 
 public class TestBase {
     static YandexFormsLoginPage yandexFormsLoginPage = new YandexFormsLoginPage();
@@ -23,20 +19,42 @@ public class TestBase {
         Configuration.baseUrl = "https://forms.yandex.ru";
         Configuration.holdBrowserOpen = true;
         yandexFormsMainPage.openMainPage()
-                        .enterInSystem();
+                .enterInSystem();
         yandexFormsLoginPage.loginCheck()
                 .loginName("TribalBNS")
                 .enter()
                 .password("TribalForTest1")
                 .enter();
         yandexFormsMainPage.createForm();
-        yandexFormsFormPage.editFormName("321");
+        yandexFormsFormPage.editFormName(RandomStringUtils.randomAlphanumeric(5));
         x = yandexFormsFormPage.getFormName();
         yandexFormsFormPage.shortAnswerFormSet();
         yandexFormsFormPage.shortAnswerSave();
     }
+
+    @AfterAll
+    static void formDelete() {
+        yandexFormsMainPage.goToMainPage()
+                .openTestedForm(x);
+        yandexFormsFormPage.shortAnswerFormDelete();
+
+
+    }
+
     @BeforeEach
-    void goToMain() {
-        $(".header2__menu-item").click();
+    void clearTestedFields() {
+        yandexFormsMainPage.goToMainPage()
+                .openTestedForm(x);
+        yandexFormsFormPage.openShortAnswerForm();
+    }
+
+    @AfterEach
+    void closeForm() {
+        yandexFormsFormPage.shortAnswerCancel()
+                .openShortAnswerForm()
+                .deleteComment()
+                .emptyQuestionId()
+                .charLimiterCheckbox(false)
+                .shortAnswerSave();
     }
 }

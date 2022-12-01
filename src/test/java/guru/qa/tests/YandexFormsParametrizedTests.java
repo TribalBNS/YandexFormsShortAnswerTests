@@ -1,114 +1,211 @@
 package guru.qa.tests;
 
-import com.codeborne.selenide.Condition;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 
-import java.util.stream.Stream;
-
-import static com.codeborne.selenide.Condition.hidden;
-import static com.codeborne.selenide.Selenide.$;
-
 public class YandexFormsParametrizedTests extends TestBase {
 
 
-    static Stream<Arguments> commentFormValidationWithDifferentTextLengthTest() {
-        return Stream.of(
-                Arguments.of(RandomStringUtils.randomAlphanumeric(1)),
-                Arguments.of(RandomStringUtils.randomAlphanumeric(2)),
-                Arguments.of(RandomStringUtils.randomAlphanumeric(50)),
-                Arguments.of(RandomStringUtils.randomAlphanumeric(500))
-        );
-    }
-    static Stream<Arguments> formQuestionCommentaryIDMinMaxSymbolsEditingInShortAnswerTest() {
-        return Stream.of(
-                Arguments.of("TestQuestion", "TestComment", "RandomID123321", "1", "10"),
-                Arguments.of(RandomStringUtils.randomAlphanumeric(1), RandomStringUtils.randomAlphanumeric(1), RandomStringUtils.randomAlphanumeric(1), "1", "2"),
-                Arguments.of(RandomStringUtils.randomAlphanumeric(2), RandomStringUtils.randomAlphanumeric(2), RandomStringUtils.randomAlphanumeric(2), "2", "2"),
-                Arguments.of(RandomStringUtils.randomAlphanumeric(25), RandomStringUtils.randomAlphanumeric(50), RandomStringUtils.randomAlphanumeric(25), "5", "100"),
-                Arguments.of(RandomStringUtils.randomAlphanumeric(50), RandomStringUtils.randomAlphanumeric(500),
-                        RandomStringUtils.randomAlphanumeric(50), "100", "1000")
-        );
-    }
-
     @Test
     public void commentInputSectionAppearsAfterClickingAddCommentTest() {
-        yandexFormsMainPage.openTestedForm(x);
-        yandexFormsFormPage.openShortAnswerForm()
-                .addComment();
-        $(".f-edit-question-form__comment-content").$(".input__control").shouldBe(Condition.visible);
-        yandexFormsFormPage.shortAnswerSave();
+        yandexFormsFormPage.addComment()
+                .checkComment(true);
     }
 
     @Test
     public void commentAddButtonHidesAfterClickingAddCommentTest() {
-        yandexFormsMainPage.openTestedForm(x);
-        yandexFormsFormPage.openShortAnswerForm()
-                .addComment();
-        $(".f-edit-question-form__add-comment").shouldBe(hidden);
-        yandexFormsFormPage.shortAnswerSave();
+        yandexFormsFormPage.addComment()
+                .checkAddComment(true);
     }
 
 
     @ParameterizedTest(name = "Validation of the 'Comment' field: saving the field with different types of data")
-    @ValueSource(strings = {"abc", "абс", "АБС", "123"})
+    @ValueSource(strings = {"abc", "абс", "АБС", "123", "你好", "$^@%@!^", "sdf sdf", " asfasdas", "asdasd "})
     public void commentFormValidationWithDifferentDataTest(String comment) {
-        yandexFormsMainPage.openTestedForm(x);
-        yandexFormsFormPage.openShortAnswerForm()
-                .addComment()
+        yandexFormsFormPage.addComment()
                 .comment(comment)
-                .shortAnswerSave();
-        $(".modal__content").shouldBe(hidden);
+                .shortAnswerSave()
+                .shortAnswerFormModal(false);
     }
 
     @Test
     public void questionSavesWithEmptyCommentFieldTest() {
-        yandexFormsMainPage.openTestedForm(x);
-        yandexFormsFormPage.openShortAnswerForm()
-                .addComment()
+        yandexFormsFormPage.addComment()
                 .comment("")
-                .shortAnswerSave();
-        $(".modal__content").shouldBe(hidden);
+                .shortAnswerSave()
+                .shortAnswerFormModal(false);
     }
 
-    @MethodSource
+    @MethodSource("guru.qa.tests.TestData#commentFormValidationWithDifferentTextLengthTest")
     @ParameterizedTest
     public void commentFormValidationWithDifferentTextLengthTest(String comment) {
-        yandexFormsMainPage.openTestedForm(x);
-        yandexFormsFormPage.openShortAnswerForm()
-                .addComment()
+        yandexFormsFormPage.addComment()
                 .comment(comment)
-                .shortAnswerSave();
-        $(".modal__content").shouldBe(hidden);
+                .shortAnswerSave()
+                .shortAnswerFormModal(false);
     }
 
+    @Test
+    public void questionIdHasDefaultValueTest() {
+        yandexFormsFormPage.checkQuestionId();
+    }
 
-    @MethodSource
-    @ParameterizedTest(name = "Checking the possibility of editing question({0}), comment({1}), " +
-            "minimum({2}) and maximum({3}) symbols in 'Short Answer' section of Yandex Forms")
-    public void formQuestionCommentaryIDMinMaxSymbolsEditingInShortAnswerTest(String question, String comment, String id, String from, String to) {
-        yandexFormsMainPage.openTestedForm(x);
-        yandexFormsFormPage.openShortAnswerForm()
-                .question(question)
-                .addComment()
-                .comment(comment)
-                .questionId(id)
-                .answerCharLimiterCheckbox()
-                .answerCharLimiterFrom(from)
-                .answerCharLimiterTo(to)
-                .shortAnswerSave();
+    @Test
+    public void questionIdDeletingPlacesDefaultValueTest() {
+        yandexFormsFormPage.questionId("")
+                .shortAnswerSave()
+                .openShortAnswerForm()
+                .checkQuestionId();
+    }
 
-        //Checking that all the values were actually saved
-        yandexFormsFormPage.openShortAnswerForm()
-                .checkQuestion(question)
-                .checkAddComment(true)
-                .checkComment(comment)
-                .checkQuestionId(id)
-                .checkAnswerCharLimiterCheckbox(true)
-                .checkAnswerCharLimiterFrom(from)
-                .checkAnswerCharLimiterTo(to)
-                .shortAnswerSave();
+    @MethodSource("guru.qa.tests.TestData#questionIdValidationWithDifferentValidSymbolsLengthTest")
+    @ParameterizedTest
+    public void questionIdValidationWithDifferentValidSymbolsLengthTest(String id) {
+        yandexFormsFormPage.questionId(id)
+                .shortAnswerSave()
+                .shortAnswerFormModal(false);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"123", "sdg", "LNMF", "-_"})
+    public void questionIdValidationWithDifferentValidSymbolsTest(String id) {
+        yandexFormsFormPage.questionId(id)
+                .shortAnswerSave()
+                .shortAnswerFormModal(false);
+    }
+
+    @MethodSource("guru.qa.tests.TestData#questionIdValidationWithDifferentInvalidSymbolsLengthTest")
+    @ParameterizedTest
+    public void questionIdValidationWithDifferentInvalidSymbolsLengthTest(String id) {
+        yandexFormsFormPage.questionId(id)
+                .shortAnswerSave()
+                .shortAnswerFormModal(true)
+                .shortAnswerFormModalNotification()
+                .shortAnswerFormModal(true);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"абв", "();%;№)", "你好", "1.2", "1,2", "12 12"})
+    public void questionIdValidationWithDifferentInvalidSymbolsTest(String id) {
+        yandexFormsFormPage.questionId(id)
+                .shortAnswerSave()
+                .shortAnswerFormModalNotification()
+                .shortAnswerFormModal(true);
+    }
+
+    @Test
+    public void fieldsFromAndToInactiveIfCharLimiterCheckboxIsOffTest() {
+        yandexFormsFormPage.charLimiterCheckbox(false)
+                .charLimiterFromEnabled(false)
+                .charLimiterToEnabled(false);
+    }
+
+    @Test
+    public void charLimiterCheckboxIsOffIfFieldsFromAndToEmptyTest() {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .shortAnswerSave()
+                .openShortAnswerForm()
+                .checkCharLimiterCheckbox(false);
+    }
+
+    @Test
+    public void questionSavesWithCharLimiterFieldsFromAndToSetTest() {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .charLimiterFromEnabled(true)
+                .setCharLimiterFrom("5")
+                .charLimiterToEnabled(true)
+                .setCharLimiterTo("10")
+                .shortAnswerSave()
+                .shortAnswerFormModal(false);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "10, 10",
+            "1, 1",
+            "2, 2",
+            "1000, 1000"
+    })
+    public void questionSavesWithCharLimiterFieldsFromAndToSetEqualTest(String from, String to) {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .charLimiterFromEnabled(true)
+                .setCharLimiterFrom(from)
+                .charLimiterToEnabled(true)
+                .setCharLimiterTo(to)
+                .shortAnswerSave()
+                .shortAnswerFormModal(false);
+    }
+
+    @Test
+    public void questionSavesWithCharLimiterFieldFromSetToEmptyTest() {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .charLimiterFromEnabled(true)
+                .setCharLimiterFrom("4")
+                .shortAnswerSave()
+                .shortAnswerFormModal(false);
+    }
+
+    @Test
+    public void questionSavesWithCharLimiterFieldFromEmptyToSetTest() {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .charLimiterToEnabled(true)
+                .setCharLimiterTo("6")
+                .shortAnswerSave()
+                .shortAnswerFormModal(false);
+    }
+
+    @Test
+    public void questionDoesNotSaveWithCharLimiterFieldsFromBiggerThanToTest() {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .charLimiterFromEnabled(true)
+                .setCharLimiterFrom("12")
+                .charLimiterToEnabled(true)
+                .setCharLimiterTo("7")
+                .shortAnswerSave()
+                .shortAnswerFormModalNotification()
+                .shortAnswerFormModal(true);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/charLimiterFromToValidAmounts.csv")
+    public void charLimiterFromValidationWithValidAmountsTest(String from) {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .charLimiterFromEnabled(true)
+                .setCharLimiterFrom(from)
+                .shortAnswerSave()
+                .shortAnswerFormModal(false);
+    }
+
+    @ParameterizedTest
+    @CsvFileSource(resources = "/charLimiterFromToValidAmounts.csv")
+    public void charLimiterToValidationWithValidAmountsTest(String to) {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .charLimiterToEnabled(true)
+                .setCharLimiterTo(to)
+                .shortAnswerSave()
+                .shortAnswerFormModal(false);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"0", "-1", "2.5", "3,5", "e", "абв", "abc", " 1", "$2", "你好"})
+    public void charLimiterFromValidationWithInvalidAmountsTest(String from) {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .charLimiterFromEnabled(true)
+                .setCharLimiterFrom(from)
+                .shortAnswerSave()
+                .shortAnswerFormModalNotification()
+                .shortAnswerFormModal(true);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"0", "-1", "2.5", "3,5", "e", "абв", "abc", " 1", "$2", "你好"})
+    public void charLimiterToValidationWithInvalidAmountsTest(String to) {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .charLimiterToEnabled(true)
+                .setCharLimiterTo(to)
+                .shortAnswerSave()
+                .shortAnswerFormModalNotification()
+                .shortAnswerFormModal(true);
     }
 }

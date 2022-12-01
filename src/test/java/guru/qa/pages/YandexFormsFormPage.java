@@ -3,8 +3,10 @@ package guru.qa.pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 
 public class YandexFormsFormPage {
     private final SelenideElement
@@ -13,41 +15,43 @@ public class YandexFormsFormPage {
             formNameGetterInput = $(".f-edit-form__label-text"),
             shortAnswerFormSetInput = $(".f-question-type_type_text"),
             shortAnswerFormInput = $(".f-question__label"),
-            questionInput = $(".f-edit-question-form__question-content").$(".input__control"),
             addCommentInput = $(".f-edit-question-form__add-comment"),
+            deleteCommentInput = $(".link_role_remove-comment"),
             commentInput = $(".f-edit-question-form__comment-content").$(".input__control"),
             questionIdInput = $(".f-edit-question-form__slug").$(".input__control"),
-            answerCharLimiterCheckboxInput = $(".checkbox_role_limits:not(.checkbox_checked_yes)"),
-            answerCharLimiterInput = $(byText("Ограничить количество символов в ответе")),
-            answerCharLimiterFromInput = $(".input_role_limits-min").$(".input__control"),
-            answerCharLimiterToInput = $(".input_role_limits-max").$(".input__control"),
-            shortAnswerSaveInput = $(".f-edit-question-form__buttons").$(byText("Сохранить")).parent();
+            emptyQuestionIdInput = $(".input_role_slug").$(".input__clear"),
+            charLimiterCheckboxInput = $(".checkbox_role_limits"),
+            charLimiterInput = $(byText("Ограничить количество символов в ответе")),
+            charLimiterFromInput = $(".input_role_limits-min").$(".input__control"),
+            charLimiterToInput = $(".input_role_limits-max").$(".input__control"),
+            shortAnswerSaveInput = $(".f-edit-question-form__buttons").$(byText("Сохранить")).parent(),
+            shortAnswerCancelInput = $(".button2_type_cancel"),
+            shortAnswerFormModalInput = $(".modal__content"),
+            shortAnswerFormModalNotificationInput = $(".m-notification__content"),
+            shortAnswerFormMoreInput = $(".f-edit-form__more"),
+            shortAnswerFormDeleteInput = $(byText("Удалить форму")),
+            shortAnswerFormConfirmDeleteInput = $(".button2_role_remove");
 
-public YandexFormsFormPage editFormName(String value) {
-    formNameEditorInput.click();
-    formNameEditInput.append(value).pressEnter();
-
-    return this;
-}
-
-public String getFormName() {
-    String x = formNameGetterInput.getOwnText();
-
-    return x;
-}
-public YandexFormsFormPage shortAnswerFormSet() {
-    shortAnswerFormSetInput.click();
-
-    return this;
-}
-    public YandexFormsFormPage openShortAnswerForm() {
-        shortAnswerFormInput.click();
+    public YandexFormsFormPage editFormName(String value) {
+        formNameEditorInput.click();
+        formNameEditInput.append(value).pressEnter();
 
         return this;
     }
 
-    public YandexFormsFormPage question(String question) {
-        questionInput.setValue(question);
+    public String getFormName() {
+
+        return formNameGetterInput.getOwnText();
+    }
+
+    public YandexFormsFormPage shortAnswerFormSet() {
+        shortAnswerFormSetInput.click();
+
+        return this;
+    }
+
+    public YandexFormsFormPage openShortAnswerForm() {
+        shortAnswerFormInput.click();
 
         return this;
     }
@@ -71,34 +75,26 @@ public YandexFormsFormPage shortAnswerFormSet() {
         return this;
     }
 
-    public YandexFormsFormPage answerCharLimiterCheckbox() {
-        answerCharLimiterInput.scrollIntoView(true);
-        if (answerCharLimiterCheckboxInput.isDisplayed())
-            answerCharLimiterInput.click();
+    public YandexFormsFormPage emptyQuestionId() {
+        if (emptyQuestionIdInput.isDisplayed())
+            emptyQuestionIdInput.click();
+
+        return this;
+    }
+    public YandexFormsFormPage setCharLimiterFrom(String from) {
+        charLimiterFromInput.setValue(from);
 
         return this;
     }
 
-    public YandexFormsFormPage answerCharLimiterFrom(String from) {
-        answerCharLimiterFromInput.setValue(from);
-
-        return this;
-    }
-
-    public YandexFormsFormPage answerCharLimiterTo(String to) {
-        answerCharLimiterToInput.setValue(to);
+    public YandexFormsFormPage setCharLimiterTo(String to) {
+        charLimiterToInput.setValue(to);
 
         return this;
     }
 
     public YandexFormsFormPage shortAnswerSave() {
         shortAnswerSaveInput.click();
-
-        return this;
-    }
-
-    public YandexFormsFormPage checkQuestion(String question) {
-        questionInput.shouldHave(Condition.text(question));
 
         return this;
     }
@@ -110,34 +106,97 @@ public YandexFormsFormPage shortAnswerFormSet() {
         return this;
     }
 
-    public YandexFormsFormPage checkComment(String comment) {
-        commentInput.shouldHave(Condition.text(comment));
+    public YandexFormsFormPage deleteComment() {
+        if (deleteCommentInput.isDisplayed())
+            deleteCommentInput.click();
 
         return this;
     }
 
-    public YandexFormsFormPage checkQuestionId(String questionId) {
-        questionIdInput.shouldHave(Condition.value(questionId));
+    public YandexFormsFormPage checkComment(Boolean visible) {
+        if (visible)
+            commentInput.shouldBe(Condition.visible);
+        else
+            commentInput.shouldBe(Condition.hidden);
 
         return this;
     }
 
-    public YandexFormsFormPage checkAnswerCharLimiterCheckbox(Boolean hidden) {
-        answerCharLimiterInput.scrollIntoView(true);
-        if (hidden)
-            answerCharLimiterCheckboxInput.shouldBe(Condition.hidden);
+    public YandexFormsFormPage checkQuestionId() {
+        questionIdInput.shouldNotBe(empty);
 
         return this;
     }
 
-    public YandexFormsFormPage checkAnswerCharLimiterFrom(String from) {
-        answerCharLimiterFromInput.shouldHave(Condition.value(from));
+    public YandexFormsFormPage checkCharLimiterCheckbox(Boolean on) {
+        charLimiterInput.scrollIntoView(true);
+        if (on)
+            charLimiterCheckboxInput.shouldHave(cssClass(".checkbox_checked_yes"));
+        else
+            charLimiterCheckboxInput.shouldNotHave(cssClass(".checkbox_checked_yes"));
 
         return this;
     }
 
-    public YandexFormsFormPage checkAnswerCharLimiterTo(String to) {
-        answerCharLimiterToInput.shouldHave(Condition.value(to));
+    public YandexFormsFormPage shortAnswerCancel() {
+        sleep(1000);
+        if (shortAnswerFormModalInput.isDisplayed())
+            shortAnswerCancelInput.click();
+
+        return this;
+    }
+
+    public YandexFormsFormPage shortAnswerFormModal(Boolean visible) {
+        if (visible)
+            shortAnswerFormModalInput.shouldBe(Condition.visible);
+        else
+            shortAnswerFormModalInput.shouldNotBe(Condition.visible);
+
+        return this;
+    }
+
+    public YandexFormsFormPage shortAnswerFormModalNotification() {
+        shortAnswerFormModalNotificationInput.should(appear);
+
+        return this;
+    }
+
+    public YandexFormsFormPage charLimiterCheckbox(boolean on) {
+        charLimiterInput.scrollIntoView(true);
+        if (on) {
+            if ($(".checkbox_role_limits:not(.checkbox_checked_yes)").isDisplayed())
+                charLimiterInput.click();
+        }
+        if (!on) {
+            if ($(".checkbox_role_limits.checkbox_checked_yes").isDisplayed())
+                charLimiterInput.click();
+        }
+
+        return this;
+    }
+
+    public YandexFormsFormPage charLimiterFromEnabled(boolean value) {
+        if (value)
+            charLimiterFromInput.shouldBe(enabled);
+        else
+            charLimiterFromInput.shouldNotBe(enabled);
+
+        return this;
+    }
+
+    public YandexFormsFormPage charLimiterToEnabled(boolean value) {
+        if (value)
+            charLimiterToInput.shouldBe(enabled);
+        else
+            charLimiterToInput.shouldNotBe(enabled);
+
+        return this;
+    }
+
+    public YandexFormsFormPage shortAnswerFormDelete() {
+        shortAnswerFormMoreInput.click();
+        shortAnswerFormDeleteInput.click();
+        shortAnswerFormConfirmDeleteInput.click();
 
         return this;
     }

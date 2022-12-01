@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1f678720-18ef-4191-afe9-a5938690b829" name="Changes" comment="Done a draft with first parametrized test">
-      <change afterPath="$PROJECT_DIR$/src/test/java/guru/qa/pages/components/YandexFormsMainPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/charLimiterFromToValidAmounts.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/guru/qa/pages/ShortAnswerFormPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/guru/qa/pages/YandexFormsFormPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/guru/qa/pages/YandexFormLoginPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/guru/qa/pages/YandexFormsLoginPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/guru/qa/pages/YandexFormsFormPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/guru/qa/pages/YandexFormsFormPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/guru/qa/pages/components/YandexFormsMainPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/guru/qa/pages/components/YandexFormsMainPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/guru/qa/tests/TestBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/guru/qa/tests/TestBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/guru/qa/tests/TestData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/guru/qa/tests/TestData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/guru/qa/tests/YandexFormsParametrizedTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/guru/qa/tests/YandexFormsParametrizedTests.java" afterDir="false" />
@@ -55,22 +54,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/laeda/IdeaProjects/hw_ex6&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/laeda/IdeaProjects/hw_ex4",
+    "run.code.analysis.last.selected.profile": "pProject Default"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="guru.qa.tests.TestData" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="guru.qa.pages" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.YandexFormsParametrizedTests.commentFormValidationWithDifferentTextLengthTest">
-    <configuration name="YandexFormsParametrizedTests.commentAddButtonHidesAfterClickingAddCommentTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.YandexFormsParametrizedTests">
+    <configuration name="YandexFormsParametrizedTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -83,7 +85,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;guru.qa.tests.YandexFormsParametrizedTests.commentAddButtonHidesAfterClickingAddCommentTest&quot;" />
+            <option value="&quot;guru.qa.tests.YandexFormsParametrizedTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -93,7 +95,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="YandexFormsParametrizedTests.commentFormValidationWithDifferentDataTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="YandexFormsParametrizedTests.charLimiterFromValidationWithValidAmountsTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -106,30 +108,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;guru.qa.tests.YandexFormsParametrizedTests.commentFormValidationWithDifferentDataTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="YandexFormsParametrizedTests.commentFormValidationWithDifferentTextLengthTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;guru.qa.tests.YandexFormsParametrizedTests.commentFormValidationWithDifferentTextLengthTest&quot;" />
+            <option value="&quot;guru.qa.tests.YandexFormsParametrizedTests.charLimiterFromValidationWithValidAmountsTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -162,7 +141,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="YandexFormsParametrizedTests.questionSavesWithEmptyCommentFieldTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="YandexFormsParametrizedTests.questionIdValidationWithDifferentInvalidSymbolsLengthTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -175,7 +154,30 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;guru.qa.tests.YandexFormsParametrizedTests.questionSavesWithEmptyCommentFieldTest&quot;" />
+            <option value="&quot;guru.qa.tests.YandexFormsParametrizedTests.questionIdValidationWithDifferentInvalidSymbolsLengthTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="YandexFormsParametrizedTests.questionSavesWithCharLimiterFieldsFromAndToSetEqualTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;guru.qa.tests.YandexFormsParametrizedTests.questionSavesWithCharLimiterFieldsFromAndToSetEqualTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -187,11 +189,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.YandexFormsParametrizedTests.commentFormValidationWithDifferentTextLengthTest" />
-        <item itemvalue="Gradle.YandexFormsParametrizedTests.questionSavesWithEmptyCommentFieldTest" />
-        <item itemvalue="Gradle.YandexFormsParametrizedTests.commentFormValidationWithDifferentDataTest" />
-        <item itemvalue="Gradle.YandexFormsParametrizedTests.commentAddButtonHidesAfterClickingAddCommentTest" />
+        <item itemvalue="Gradle.YandexFormsParametrizedTests" />
+        <item itemvalue="Gradle.YandexFormsParametrizedTests.questionIdValidationWithDifferentInvalidSymbolsLengthTest" />
         <item itemvalue="Gradle.YandexFormsParametrizedTests.commentInputSectionAppearsAfterClickingAddCommentTest" />
+        <item itemvalue="Gradle.YandexFormsParametrizedTests.questionSavesWithCharLimiterFieldsFromAndToSetEqualTest" />
+        <item itemvalue="Gradle.YandexFormsParametrizedTests.charLimiterFromValidationWithValidAmountsTest" />
       </list>
     </recent_temporary>
   </component>
@@ -218,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669676179177</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Done a draft with first parametrized test">
+      <created>1669844428563</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1669844428563</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
