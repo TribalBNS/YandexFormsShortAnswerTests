@@ -6,7 +6,11 @@ import org.junit.jupiter.params.provider.Arguments;
 import java.util.stream.Stream;
 
 public class TestData {
+    static final String LOGIN = "TribalBNS";
+    static final String PASSWORD = "TribalForTest1";
+    static final String formNameAppender = RandomStringUtils.randomAlphanumeric(5);
 
+public static String formName;
     static Stream<Arguments> commentFormValidationWithDifferentTextLengthTest() {
         return Stream.of(
                 Arguments.of(RandomStringUtils.randomAlphanumeric(1)),

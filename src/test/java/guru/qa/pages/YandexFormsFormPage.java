@@ -8,6 +8,8 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.sleep;
 
+import static guru.qa.tests.TestData.*;
+
 public class YandexFormsFormPage {
     private final SelenideElement
             formNameEditorInput = $(".f-edit-form__label-edit"),
@@ -39,9 +41,10 @@ public class YandexFormsFormPage {
         return this;
     }
 
-    public String getFormName() {
+    public YandexFormsFormPage getFormName() {
+        formName = formNameGetterInput.getOwnText();
 
-        return formNameGetterInput.getOwnText();
+        return this;
     }
 
     public YandexFormsFormPage shortAnswerFormSet() {
@@ -81,6 +84,7 @@ public class YandexFormsFormPage {
 
         return this;
     }
+
     public YandexFormsFormPage setCharLimiterFrom(String from) {
         charLimiterFromInput.setValue(from);
 
