@@ -20,13 +20,6 @@ public static String formName;
         );
     }
 
-    static Stream<Arguments> questionIdValidationWithDifferentInvalidSymbolsLengthTest() {
-        return Stream.of(
-                Arguments.of(RandomStringUtils.randomAlphanumeric(51)),
-                Arguments.of(RandomStringUtils.randomAlphanumeric(52)),
-                Arguments.of(RandomStringUtils.randomAlphanumeric(100))
-        );
-    }
     static Stream<Arguments> questionIdValidationWithDifferentValidSymbolsLengthTest() {
         return Stream.of(
                 Arguments.of(RandomStringUtils.randomAlphanumeric(1)),
@@ -36,4 +29,13 @@ public static String formName;
                 Arguments.of(RandomStringUtils.randomAlphanumeric(50))
         );
     }
+
+    static Stream<Arguments> questionIdValidationWithDifferentInvalidSymbolsLengthTest() {
+        return Stream.of(
+                Arguments.of(RandomStringUtils.randomAlphanumeric(51)),
+                Arguments.of(RandomStringUtils.randomAlphanumeric(52)),
+                Arguments.of(RandomStringUtils.randomAlphanumeric(100))
+        );
+    }
+
 }

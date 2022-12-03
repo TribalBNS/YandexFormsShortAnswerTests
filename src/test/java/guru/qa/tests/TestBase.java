@@ -3,7 +3,7 @@ package guru.qa.tests;
 import com.codeborne.selenide.Configuration;
 import guru.qa.pages.YandexFormsFormPage;
 import guru.qa.pages.YandexFormsLoginPage;
-import guru.qa.pages.components.YandexFormsMainPage;
+import guru.qa.pages.YandexFormsMainPage;
 import org.junit.jupiter.api.*;
 
 import static guru.qa.tests.TestData.*;
@@ -26,10 +26,10 @@ public class TestBase {
                 .password(PASSWORD)
                 .enter();
         yandexFormsMainPage.createForm();
-        yandexFormsFormPage.editFormName(formNameAppender);
-        yandexFormsFormPage.getFormName();
-        yandexFormsFormPage.shortAnswerFormSet();
-        yandexFormsFormPage.shortAnswerSave();
+        yandexFormsFormPage.editFormName(formNameAppender)
+                .getFormName()
+                .shortAnswerFormSet()
+                .shortAnswerSave();
     }
 
     @AfterAll
@@ -42,14 +42,14 @@ public class TestBase {
     }
 
     @BeforeEach
-    void clearTestedFields() {
+    void openShortAnswerForm() {
         yandexFormsMainPage.goToMainPage()
                 .openTestedForm(formName);
         yandexFormsFormPage.openShortAnswerForm();
     }
 
     @AfterEach
-    void closeForm() {
+    void clearAndCloseForm() {
         yandexFormsFormPage.shortAnswerCancel()
                 .openShortAnswerForm()
                 .deleteComment()

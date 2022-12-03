@@ -5,25 +5,25 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 
-public class YandexFormsParametrizedTests extends TestBase {
+public class YandexFormsShortAnswerModalTests extends TestBase {
 
 
     @Test
-    @DisplayName("Поле ввода коментария появляется после нажатия на кнопку 'Добавить комментарий'")
+    @DisplayName("T-1: 'Commentary' field appears after clicking 'Add comment' button")
     public void commentInputSectionAppearsAfterClickingAddCommentTest() {
         yandexFormsFormPage.addComment()
                 .checkComment(true);
     }
 
     @Test
-    @DisplayName("Кнопка 'Добавить комментарий' исчезает после нажатия на неё")
+    @DisplayName("T-2: 'Add comment' button disappears after clicking on it")
     public void commentAddButtonHidesAfterClickingAddCommentTest() {
         yandexFormsFormPage.addComment()
                 .checkAddComment(true);
     }
 
 
-    @ParameterizedTest(name = "Проверка возможности заполнения поля 'Комментарий' различными типами данных")
+    @ParameterizedTest(name = "T-3: Form saves with 'Commentary' field filled with valid data {0}")
     @ValueSource(strings = {"abc", "абс", "АБС", "123", "你好", "$^@%@!^.,", "sdf sdf", " asfasdas", "asdasd "})
     public void commentFormValidationWithDifferentDataTest(String comment) {
         yandexFormsFormPage.addComment()
@@ -33,7 +33,7 @@ public class YandexFormsParametrizedTests extends TestBase {
     }
 
     @Test
-    @DisplayName("Вопрос сохраняется при пустом поле 'Комментарий'")
+    @DisplayName("T-4: Form saves with empty 'Commentary' field")
     public void questionSavesWithEmptyCommentFieldTest() {
         yandexFormsFormPage.addComment()
                 .comment("")
@@ -42,7 +42,7 @@ public class YandexFormsParametrizedTests extends TestBase {
     }
 
     @MethodSource("guru.qa.tests.TestData#commentFormValidationWithDifferentTextLengthTest")
-    @ParameterizedTest(name = "Проверка возможности заполнения поля 'Комментарий' текстом длиной {0} символов")
+    @ParameterizedTest(name = "T-5: Form saves with 'Commentary' field filled with valid length data {0}")
     public void commentFormValidationWithDifferentTextLengthTest(String comment) {
         yandexFormsFormPage.addComment()
                 .comment(comment)
@@ -51,13 +51,13 @@ public class YandexFormsParametrizedTests extends TestBase {
     }
 
     @Test
-    @DisplayName("Поле 'Идентификатор вопроса' имеет значение по умолчанию")
+    @DisplayName("T-6: 'Question ID' has a default parameter")
     public void questionIdHasDefaultValueTest() {
         yandexFormsFormPage.checkQuestionId();
     }
 
     @Test
-    @DisplayName("При удалении идентификатора вопроса ему присвается значение по умолчанию")
+    @DisplayName("T-7: Deleting 'Question ID' returns it a default parameter")
     public void questionIdDeletingPlacesDefaultValueTest() {
         yandexFormsFormPage.questionId("")
                 .shortAnswerSave()
@@ -66,14 +66,14 @@ public class YandexFormsParametrizedTests extends TestBase {
     }
 
     @MethodSource("guru.qa.tests.TestData#questionIdValidationWithDifferentValidSymbolsLengthTest")
-    @ParameterizedTest(name = "Проверка возможности заполнения поля 'Идентификатор вопроса' текстом длиной {0} символов")
+    @ParameterizedTest(name = "T-8: Form saves with 'Question ID' field filled with valid length data {0}")
     public void questionIdValidationWithDifferentValidSymbolsLengthTest(String id) {
         yandexFormsFormPage.questionId(id)
                 .shortAnswerSave()
                 .shortAnswerFormModal(false);
     }
 
-    @ParameterizedTest(name = "Проверка возможности заполнения поля 'Идентификатор вопроса' валидными символами {0}")
+    @ParameterizedTest(name = "T-9: Form saves with 'Question ID' field filled with valid data {0}")
     @ValueSource(strings = {"123", "sdg", "LNMF", "-_"})
     public void questionIdValidationWithDifferentValidSymbolsTest(String id) {
         yandexFormsFormPage.questionId(id)
@@ -82,7 +82,7 @@ public class YandexFormsParametrizedTests extends TestBase {
     }
 
     @MethodSource("guru.qa.tests.TestData#questionIdValidationWithDifferentInvalidSymbolsLengthTest")
-    @ParameterizedTest(name = "Проверка невозможности заполнения поля 'Идентификатор вопроса' текстом длиной {0} символов")
+    @ParameterizedTest(name = "T-10: Form doesn't save with 'Question ID' field filled with invalid length data {0}")
     public void questionIdValidationWithDifferentInvalidSymbolsLengthTest(String id) {
         yandexFormsFormPage.questionId(id)
                 .shortAnswerSave()
@@ -91,7 +91,7 @@ public class YandexFormsParametrizedTests extends TestBase {
                 .shortAnswerFormModal(true);
     }
 
-    @ParameterizedTest(name = "Проверка невозможности заполнения поля 'Идентификатор вопроса' невалидными символами {0}")
+    @ParameterizedTest(name = "T-11: Form doesn't save with 'Question ID' field filled with invalid data {0}")
     @ValueSource(strings = {"абв", "();%;№)", "你好", "1.2", "1,2", "12 12"})
     public void questionIdValidationWithDifferentInvalidSymbolsTest(String id) {
         yandexFormsFormPage.questionId(id)
@@ -101,7 +101,7 @@ public class YandexFormsParametrizedTests extends TestBase {
     }
 
     @Test
-    @DisplayName("Поля 'От' и 'До' неактивны при выключенном чекбоксе 'Ограничить количество символов в ответе'")
+    @DisplayName("T-12: Fields 'From' and 'To' are inactive if checkbox 'Limit number of characters in response' is off")
     public void fieldsFromAndToInactiveIfCharLimiterCheckboxIsOffTest() {
         yandexFormsFormPage.charLimiterCheckbox(false)
                 .charLimiterFromEnabled(false)
@@ -109,7 +109,7 @@ public class YandexFormsParametrizedTests extends TestBase {
     }
 
     @Test
-    @DisplayName("Чекбокс 'Ограничить количество символов в ответе' выключается, если поля 'От' и 'До' не заполнены")
+    @DisplayName("T-13: Checkbox 'Limit number of characters in response' is off if fields 'From' and 'To' are not filled")
     public void charLimiterCheckboxIsOffIfFieldsFromAndToEmptyTest() {
         yandexFormsFormPage.charLimiterCheckbox(true)
                 .shortAnswerSave()
@@ -118,7 +118,7 @@ public class YandexFormsParametrizedTests extends TestBase {
     }
 
     @Test
-    @DisplayName("Вопрос сохраняется, если поля 'От' и 'До' заполнены")
+    @DisplayName("T-14: Form saves if fields 'From' and 'To' are filled with valid data")
     public void questionSavesWithCharLimiterFieldsFromAndToSetTest() {
         yandexFormsFormPage.charLimiterCheckbox(true)
                 .charLimiterFromEnabled(true)
@@ -129,7 +129,7 @@ public class YandexFormsParametrizedTests extends TestBase {
                 .shortAnswerFormModal(false);
     }
 
-    @ParameterizedTest(name = "Вопрос сохраняется, если поля 'От' и 'До' заполнены равными значениями {0} и {1}")
+    @ParameterizedTest(name = "T-15: Form saves if fields 'From' and 'To' are filled with equal valid data {0} and {1}")
     @CsvSource(value = {
             "10, 10",
             "1, 1",
@@ -147,7 +147,7 @@ public class YandexFormsParametrizedTests extends TestBase {
     }
 
     @Test
-    @DisplayName("Вопрос сохраняется, если поле 'От' заполнено, а поле 'До' нет")
+    @DisplayName("T-16: Form saves if 'From' field is set and 'To' field is empty")
     public void questionSavesWithCharLimiterFieldFromSetToEmptyTest() {
         yandexFormsFormPage.charLimiterCheckbox(true)
                 .charLimiterFromEnabled(true)
@@ -157,7 +157,7 @@ public class YandexFormsParametrizedTests extends TestBase {
     }
 
     @Test
-    @DisplayName("Вопрос сохраняется, если поле 'До' заполнено, а поле 'От' нет")
+    @DisplayName("T-17: Form saves if 'To' field is set and 'From' field is empty")
     public void questionSavesWithCharLimiterFieldFromEmptyToSetTest() {
         yandexFormsFormPage.charLimiterCheckbox(true)
                 .charLimiterToEnabled(true)
@@ -167,7 +167,7 @@ public class YandexFormsParametrizedTests extends TestBase {
     }
 
     @Test
-    @DisplayName("Вопрос yt сохраняется, если значение поля 'От' больше значения поля 'До'")
+    @DisplayName("T-18: Form doesn't save if value 'From' is bigger than 'To'")
     public void questionDoesNotSaveWithCharLimiterFieldsFromBiggerThanToTest() {
         yandexFormsFormPage.charLimiterCheckbox(true)
                 .charLimiterFromEnabled(true)
@@ -179,7 +179,7 @@ public class YandexFormsParametrizedTests extends TestBase {
                 .shortAnswerFormModal(true);
     }
 
-    @ParameterizedTest(name = "Проверка возможности заполнения поля 'От' различными валидными значениями")
+    @ParameterizedTest(name = "T-19: Form saves if 'From' field is filled with valid data {0}")
     @CsvFileSource(resources = "/charLimiterFromToValidAmounts.csv")
     public void charLimiterFromValidationWithValidAmountsTest(String from) {
         yandexFormsFormPage.charLimiterCheckbox(true)
@@ -189,7 +189,7 @@ public class YandexFormsParametrizedTests extends TestBase {
                 .shortAnswerFormModal(false);
     }
 
-    @ParameterizedTest(name = "Проверка возможности заполнения поля 'До' различными валидными значениями")
+    @ParameterizedTest(name = "T-20: Form saves if 'To' field is filled with valid data {0}")
     @CsvFileSource(resources = "/charLimiterFromToValidAmounts.csv")
     public void charLimiterToValidationWithValidAmountsTest(String to) {
         yandexFormsFormPage.charLimiterCheckbox(true)
@@ -199,7 +199,7 @@ public class YandexFormsParametrizedTests extends TestBase {
                 .shortAnswerFormModal(false);
     }
 
-    @ParameterizedTest(name = "Проверка невозможности заполнения поля 'От' различными невалидными значениями")
+    @ParameterizedTest(name = "T-21: Form doesn't save if 'From' field is filled with invalid data {0}")
     @ValueSource(strings = {"0", "-1", "2.5", "3,5", "e", "абв", "abc", " 1", "$2", "你好"})
     public void charLimiterFromValidationWithInvalidAmountsTest(String from) {
         yandexFormsFormPage.charLimiterCheckbox(true)
@@ -210,7 +210,8 @@ public class YandexFormsParametrizedTests extends TestBase {
                 .shortAnswerFormModal(true);
     }
 
-    @ParameterizedTest(name = "Проверка невозможности заполнения поля 'До' различными невалидными значениями")
+    @DisplayName("T-22: Form doesn't save if 'To' field is filled with invalid data")
+    @ParameterizedTest
     @ValueSource(strings = {"0", "-1", "2.5", "3,5", "e", "абв", "abc", " 1", "$2", "你好"})
     public void charLimiterToValidationWithInvalidAmountsTest(String to) {
         yandexFormsFormPage.charLimiterCheckbox(true)
