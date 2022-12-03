@@ -97,6 +97,18 @@ public class YandexFormsFormPage {
         return this;
     }
 
+    public YandexFormsFormPage checkCharLimiterFrom(String from) {
+        charLimiterFromInput.shouldHave(value(from));
+
+        return this;
+    }
+
+    public YandexFormsFormPage checkCharLimiterTo(String to) {
+        charLimiterToInput.shouldHave(value(to));
+
+        return this;
+    }
+
     public YandexFormsFormPage shortAnswerSave() {
         shortAnswerSaveInput.click();
 

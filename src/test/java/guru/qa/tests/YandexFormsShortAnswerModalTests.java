@@ -22,8 +22,8 @@ public class YandexFormsShortAnswerModalTests extends TestBase {
                 .checkAddComment(true);
     }
 
-
-    @ParameterizedTest(name = "T-3: Form saves with 'Commentary' field filled with valid data {0}")
+    @ParameterizedTest
+    @DisplayName("T-3: Form saves with 'Commentary' field filled with valid data")
     @ValueSource(strings = {"abc", "абс", "АБС", "123", "你好", "$^@%@!^.,", "sdf sdf", " asfasdas", "asdasd "})
     public void commentFormValidationWithDifferentDataTest(String comment) {
         yandexFormsFormPage.addComment()
@@ -41,8 +41,9 @@ public class YandexFormsShortAnswerModalTests extends TestBase {
                 .shortAnswerFormModal(false);
     }
 
+    @ParameterizedTest
+    @DisplayName("T-5: Form saves with 'Commentary' field filled with valid length data")
     @MethodSource("guru.qa.tests.TestData#commentFormValidationWithDifferentTextLengthTest")
-    @ParameterizedTest(name = "T-5: Form saves with 'Commentary' field filled with valid length data {0}")
     public void commentFormValidationWithDifferentTextLengthTest(String comment) {
         yandexFormsFormPage.addComment()
                 .comment(comment)
@@ -65,15 +66,17 @@ public class YandexFormsShortAnswerModalTests extends TestBase {
                 .checkQuestionId();
     }
 
+    @ParameterizedTest
+    @DisplayName("T-8: Form saves with 'Question ID' field filled with valid length data")
     @MethodSource("guru.qa.tests.TestData#questionIdValidationWithDifferentValidSymbolsLengthTest")
-    @ParameterizedTest(name = "T-8: Form saves with 'Question ID' field filled with valid length data {0}")
     public void questionIdValidationWithDifferentValidSymbolsLengthTest(String id) {
         yandexFormsFormPage.questionId(id)
                 .shortAnswerSave()
                 .shortAnswerFormModal(false);
     }
 
-    @ParameterizedTest(name = "T-9: Form saves with 'Question ID' field filled with valid data {0}")
+    @ParameterizedTest
+    @DisplayName("T-9: Form saves with 'Question ID' field filled with valid data")
     @ValueSource(strings = {"123", "sdg", "LNMF", "-_"})
     public void questionIdValidationWithDifferentValidSymbolsTest(String id) {
         yandexFormsFormPage.questionId(id)
@@ -81,8 +84,9 @@ public class YandexFormsShortAnswerModalTests extends TestBase {
                 .shortAnswerFormModal(false);
     }
 
+    @ParameterizedTest
+    @DisplayName("T-10: Form doesn't save with 'Question ID' field filled with invalid length data")
     @MethodSource("guru.qa.tests.TestData#questionIdValidationWithDifferentInvalidSymbolsLengthTest")
-    @ParameterizedTest(name = "T-10: Form doesn't save with 'Question ID' field filled with invalid length data {0}")
     public void questionIdValidationWithDifferentInvalidSymbolsLengthTest(String id) {
         yandexFormsFormPage.questionId(id)
                 .shortAnswerSave()
@@ -91,7 +95,8 @@ public class YandexFormsShortAnswerModalTests extends TestBase {
                 .shortAnswerFormModal(true);
     }
 
-    @ParameterizedTest(name = "T-11: Form doesn't save with 'Question ID' field filled with invalid data {0}")
+    @ParameterizedTest
+    @DisplayName("T-11: Form doesn't save with 'Question ID' field filled with invalid data")
     @ValueSource(strings = {"абв", "();%;№)", "你好", "1.2", "1,2", "12 12"})
     public void questionIdValidationWithDifferentInvalidSymbolsTest(String id) {
         yandexFormsFormPage.questionId(id)
@@ -129,7 +134,8 @@ public class YandexFormsShortAnswerModalTests extends TestBase {
                 .shortAnswerFormModal(false);
     }
 
-    @ParameterizedTest(name = "T-15: Form saves if fields 'From' and 'To' are filled with equal valid data {0} and {1}")
+    @ParameterizedTest
+    @DisplayName("T-15: Form saves if fields 'From' and 'To' are filled with equal valid data")
     @CsvSource(value = {
             "10, 10",
             "1, 1",
@@ -179,9 +185,10 @@ public class YandexFormsShortAnswerModalTests extends TestBase {
                 .shortAnswerFormModal(true);
     }
 
-    @ParameterizedTest(name = "T-19: Form saves if 'From' field is filled with valid data {0}")
-    @CsvFileSource(resources = "/charLimiterFromToValidAmounts.csv")
-    public void charLimiterFromValidationWithValidAmountsTest(String from) {
+    @ParameterizedTest
+    @DisplayName("T-19: Form saves if 'From' field is filled with valid value")
+    @CsvFileSource(resources = "/charLimiterFromToPositiveValues.csv")
+    public void charLimiterFromValidationWithPositiveValueTest(String from) {
         yandexFormsFormPage.charLimiterCheckbox(true)
                 .charLimiterFromEnabled(true)
                 .setCharLimiterFrom(from)
@@ -189,9 +196,10 @@ public class YandexFormsShortAnswerModalTests extends TestBase {
                 .shortAnswerFormModal(false);
     }
 
-    @ParameterizedTest(name = "T-20: Form saves if 'To' field is filled with valid data {0}")
-    @CsvFileSource(resources = "/charLimiterFromToValidAmounts.csv")
-    public void charLimiterToValidationWithValidAmountsTest(String to) {
+    @ParameterizedTest
+    @DisplayName("T-20: Form saves if 'To' field is filled with positive value")
+    @CsvFileSource(resources = "/charLimiterFromToPositiveValues.csv")
+    public void charLimiterToValidationWithPositiveValueTest(String to) {
         yandexFormsFormPage.charLimiterCheckbox(true)
                 .charLimiterToEnabled(true)
                 .setCharLimiterTo(to)
@@ -199,9 +207,30 @@ public class YandexFormsShortAnswerModalTests extends TestBase {
                 .shortAnswerFormModal(false);
     }
 
-    @ParameterizedTest(name = "T-21: Form doesn't save if 'From' field is filled with invalid data {0}")
-    @ValueSource(strings = {"0", "-1", "2.5", "3,5", "e", "абв", "abc", " 1", "$2", "你好"})
-    public void charLimiterFromValidationWithInvalidAmountsTest(String from) {
+    @ParameterizedTest
+    @DisplayName("T-21: Field 'From' does not receive invalid symbols")
+    @CsvFileSource(resources = "/charLimiterFromToInvalidSymbols.csv")
+    public void charLimiterFromInvalidInputTest(String from, String fromCheck) {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .charLimiterToEnabled(true)
+                .setCharLimiterFrom(from)
+                .checkCharLimiterFrom(fromCheck);
+    }
+
+    @ParameterizedTest
+    @DisplayName("T-22: Field 'To' does not receive invalid symbols")
+    @CsvFileSource(resources = "/charLimiterFromToInvalidSymbols.csv")
+    public void charLimiterToInvalidInputTest(String to, String toCheck) {
+        yandexFormsFormPage.charLimiterCheckbox(true)
+                .charLimiterToEnabled(true)
+                .setCharLimiterTo(to)
+                .checkCharLimiterTo(toCheck);
+    }
+
+    @ParameterizedTest
+    @DisplayName("T-23: Form doesn't save if 'From' field is filled with negative value")
+    @CsvFileSource(resources = "/charLimiterFromToNegativeValues.csv")
+    public void charLimiterFromValidationWithNegativeValueTest(String from) {
         yandexFormsFormPage.charLimiterCheckbox(true)
                 .charLimiterFromEnabled(true)
                 .setCharLimiterFrom(from)
@@ -210,12 +239,12 @@ public class YandexFormsShortAnswerModalTests extends TestBase {
                 .shortAnswerFormModal(true);
     }
 
-    @DisplayName("T-22: Form doesn't save if 'To' field is filled with invalid data")
     @ParameterizedTest
-    @ValueSource(strings = {"0", "-1", "2.5", "3,5", "e", "абв", "abc", " 1", "$2", "你好"})
-    public void charLimiterToValidationWithInvalidAmountsTest(String to) {
+    @DisplayName("T-24: Form doesn't save if 'To' field is filled with negative value")
+    @CsvFileSource(resources = "/charLimiterFromToNegativeValues.csv")
+    public void charLimiterToValidationWithNegativeValueTest(String to) {
         yandexFormsFormPage.charLimiterCheckbox(true)
-                .charLimiterToEnabled(true)
+                .charLimiterFromEnabled(true)
                 .setCharLimiterTo(to)
                 .shortAnswerSave()
                 .shortAnswerFormModalNotification()
